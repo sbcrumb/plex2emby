@@ -70,6 +70,11 @@ def _print_summary(rows: list[ReportRow], report: Path) -> None:
     for status, count in sorted(Counter(row.status for row in rows).items()):
         table.add_row(status, str(count))
     console.print(table)
+    by_library = Counter((row.library, row.status) for row in rows)
+    libraries = Table("Plex library", "Result", "Items")
+    for (library, status), count in sorted(by_library.items()):
+        libraries.add_row(library, status, str(count))
+    console.print(libraries)
     console.print(f"Report: {report}", markup=False, soft_wrap=True)
 
 
